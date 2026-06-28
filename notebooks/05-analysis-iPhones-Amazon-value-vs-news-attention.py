@@ -88,7 +88,7 @@ print(sc.master)
 # The analysis starts from the cleaned CSV created by `04-amazon-electronics-dataset-cleaning.ipynb` and moves it into Spark for the rest of the project.
 
 # %%
-cleaned_data_file = "cleaned-amazon-electronics-sales-2023.csv"
+cleaned_data_file = "data/cleaned-amazon-electronics-sales-2023.csv"
 
 if not os.path.exists(cleaned_data_file):
     raise FileNotFoundError(
@@ -138,7 +138,7 @@ print(f"Cleaned Amazon products loaded from {cleaned_data_file}: {products_df.co
 # The product titles in the Amazon data mention model names, but not release years. To add that context, this notebook loads the iPhone model table created by `03-iphone-models-webscraping.ipynb`.
 
 # %%
-iphone_models_file = "wikipedia-iphone-models.csv"
+iphone_models_file = "data/wikipedia-iphone-models.csv"
 
 if not os.path.exists(iphone_models_file):
     raise FileNotFoundError(
@@ -345,7 +345,7 @@ model_coverage_df.show(100, truncate=False)
 # GDELT is used as a media-attention dataset. This notebook loads the 2023 news mention counts created by `02-gdelt-iphone-news-mentions-API-request.ipynb`.
 
 # %%
-gdelt_output_file = "gdelt-iphone-news-mentions-2023.csv"
+gdelt_output_file = "data/gdelt-iphone-news-mentions-2023.csv"
 
 if os.path.exists(gdelt_output_file):
     gdelt_mentions_pd = pd.read_csv(gdelt_output_file)

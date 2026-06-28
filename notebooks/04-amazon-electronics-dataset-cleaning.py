@@ -69,8 +69,7 @@ print(sc.master)
 
 # %%
 input_candidates = [
-    "All Electronics.csv",
-    "All Electronics(1).csv",
+    "data/All Electronics.csv",
 ]
 
 input_file = next((path for path in input_candidates if os.path.exists(path)), input_candidates[0])
@@ -199,7 +198,7 @@ print((data.count(), len(data.columns)))
 #
 
 # %%
-exchange_rates_file = "frankfurter-inr-eur-exchange-rates-2023.csv"
+exchange_rates_file = "data/frankfurter-inr-eur-exchange-rates-2023.csv"
 
 if not os.path.exists(exchange_rates_file):
     raise FileNotFoundError(
@@ -364,7 +363,7 @@ price_range.show(truncate=False)
 # Write the cleaned Amazon Electronics dataset to a CSV file for the analysis notebook.
 
 # %%
-cleaned_output_file = "cleaned-amazon-electronics-sales-2023.csv"
+cleaned_output_file = "data/cleaned-amazon-electronics-sales-2023.csv"
 saved_data.toPandas().to_csv(cleaned_output_file, index=False)
 
 print(f"Cleaned Amazon Electronics dataset saved to {cleaned_output_file}")

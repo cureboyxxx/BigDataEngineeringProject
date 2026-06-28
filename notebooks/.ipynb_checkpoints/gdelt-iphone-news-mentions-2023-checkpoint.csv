@@ -4,4 +4,4 @@ iPhone 13,,https://api.gdeltproject.org/api/v2/doc/doc?query=%22iPhone+13%22&mod
 iPhone 14,14533.0,https://api.gdeltproject.org/api/v2/doc/doc?query=%22iPhone+14%22&mode=timelinevolraw&format=json&startdatetime=20230101000000&enddatetime=20231231235959&timelinesmooth=0,ok
 iPhone 14 Plus,,https://api.gdeltproject.org/api/v2/doc/doc?query=%22iPhone+14+Plus%22&mode=timelinevolraw&format=json&startdatetime=20230101000000&enddatetime=20231231235959&timelinesmooth=0,http_429
 iPhone 14 Pro,,https://api.gdeltproject.org/api/v2/doc/doc?query=%22iPhone+14+Pro%22&mode=timelinevolraw&format=json&startdatetime=20230101000000&enddatetime=20231231235959&timelinesmooth=0,http_429
-iPhone 14 Pro Max,,https://api.gdeltproject.org/api/v2/doc/doc?query=%22iPhone+14+Pro+Max%22&mode=timelinevolraw&format=json&startdatetime=20230101000000&enddatetime=20231231235959&timelinesmooth=0,http_429
+iPhone 14 Pro Max,3651.0,https://api.gdeltproject.org/api/v2/doc/doc?query=%22iPhone+14+Pro+Max%22&mode=timelinevolraw&format=json&startdatetime=20230101000000&enddatetime=20231231235959&timelinesmooth=0,ok

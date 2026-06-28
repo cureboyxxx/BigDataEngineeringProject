@@ -85,7 +85,7 @@ print(f"Average 2023 INR -> EUR rate: {average_rate:.8f}")
 # ## Save Exchange Rates as CSV
 
 # %%
-output_file = Path("frankfurter-inr-eur-exchange-rates-2023.csv")
+output_file = Path("data/frankfurter-inr-eur-exchange-rates-2023.csv")
 
 with output_file.open("w", newline="", encoding="utf-8") as file:
     writer = csv.DictWriter(file, fieldnames=["date", "base", "quote", "rate"])

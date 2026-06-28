@@ -119,7 +119,7 @@ display(iphone_models_pd.head(10))
 # ## Save iPhone Model Data
 
 # %%
-output_file = Path("wikipedia-iphone-models.csv")
+output_file = Path("data/wikipedia-iphone-models.csv")
 iphone_models_pd.to_csv(output_file, index=False)
 
 print(f"iPhone model data saved to {output_file}")
