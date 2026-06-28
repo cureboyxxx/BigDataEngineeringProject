@@ -1,0 +1,38 @@
+Model,Release(d),Release(d),Discontinued,Support,Support,Support,Support,Status
+Model,With OS,Date,Discontinued,Ended,Final OS[a],Lifespan[b],Lifespan[b],Status
+Model,With OS,Date,Discontinued,Ended,Final OS[a],Max[c],Min[d],Status
+iPhone,iPhone OS 1.0,"June 29, 2007","June 9, 2008","June 21, 2010",iPhone OS 3.1.3,"2 years, 11 months",2 years,Discontinued and unsupported
+iPhone 3G,iPhone OS 2.0,"July 11, 2008","August 9, 2010","March 3, 2011",iOS 4.2.1,"2 years, 7 months",6 months,Discontinued and unsupported
+iPhone 3GS,iPhone OS 3.0,"June 19, 2009","September 12, 2012","September 18, 2013 (late, single update: February 21, 2014",iOS 6.1.3 (6.1.6),"4 years, 2 months",1 year,Discontinued and unsupported
+iPhone 4,iOS 4.0,"June 24, 2010","September 10, 2013","September 17, 2014",iOS 7.1.2,"4 years, 2 months",1 year,Discontinued and unsupported
+iPhone 4s,iOS 5.0,"October 14, 2011","September 9, 2014","September 13, 2016 (late, single update: July 22, 2019",iOS 9.3.5 (9.3.6),"4 years, 10 months",2 years,Discontinued and unsupported
+iPhone 5,iOS 6.0,"September 21, 2012","September 10, 2013","September 19, 2017 (late, single update: July 22, 2019",iOS 10.3.3 (10.3.4),"4 years, 11 months",4 years,Discontinued and unsupported
+iPhone 5c,iOS 7.0,"September 20, 2013","September 9, 2015","September 19, 2017",iOS 10.3.3,"3 years, 11 months",2 years,Discontinued and unsupported
+iPhone 5s,iOS 7.0,"September 20, 2013","March 21, 2016","September 18, 2019 (last security update: January 26, 2026",iOS 12.4.1 (12.5.8),"5 years, 11 months","3 years, 5 months",Discontinued and unsupported
+iPhone 6 / 6 Plus,iOS 8.0,"September 19, 2014","September 7, 2016","September 18, 2019 (last security update: January 26, 2026",iOS 12.4.1 (12.5.8),"4 years, 11 months",3 years,Discontinued and unsupported
+iPhone 6s / 6s Plus,iOS 9.0,"September 25, 2015","September 12, 2018","September 12, 2022 (last security update: May 11, 2026",iOS 15.6.1 (15.8.7),"6 years, 11 months",4 years,"Discontinued and unsupported, critical security bug fixes only"
+iPhone SE (1st),iOS 9.3,"March 31, 2016","September 12, 2018","September 12, 2022 (last security update: May 11, 2026",iOS 15.6.1 (15.8.7),"6 years, 5 months",4 years,"Discontinued and unsupported, critical security bug fixes only"
+iPhone 7 / 7 Plus,iOS 10.0,"September 16, 2016","September 10, 2019","September 12, 2022 (last security update: May 11, 2026",iOS 15.6.1 (15.8.7),"5 years, 11 months",3 years,"Discontinued and unsupported, critical security bug fixes only"
+iPhone 8 / 8 Plus,iOS 11.0,"September 22, 2017","April 15, 2020","September 18, 2023 (last security update: May 11, 2026",iOS 16.6.1 (16.7.15),"5 years, 11 months","3 years, 1 month","Discontinued and unsupported, critical security bug fixes only"
+iPhone X,iOS 11.0.1,"November 3, 2017","September 12, 2018","September 18, 2023 (last security update: May 11, 2026",iOS 16.6.1 (16.7.15),"5 years, 10 months","5 years, 1 month","Discontinued and unsupported, critical security bug fixes only"
+iPhone XS / XS Max,iOS 12.0,"September 21, 2018","September 10, 2019","September 15, 2025 (last security update: May 11, 2026",iOS 18.7 (iOS 18.7.9),7 years,6 years,"Discontinued and unsupported, critical security bug fixes only"
+iPhone XR,iOS 12.0,"October 26, 2018","September 14, 2021","September 15, 2025 (last security update: May 11, 2026",iOS 18.7 (iOS 18.7.9),"6 years, 10 months",4 years,"Discontinued and unsupported, critical security bug fixes only"
+iPhone 11,iOS 13.0,"September 20, 2019","September 7, 2022",current: iOS 26.5,–,"6 years, 7 months","3 years, 8 months","Discontinued, still supported"
+iPhone 11 Pro / 11 Pro Max,iOS 13.0,"September 20, 2019","October 13, 2020",current: iOS 26.5,–,"6 years, 7 months","5 years, 7 months","Discontinued, still supported"
+iPhone SE (2nd),iOS 13.4,"April 24, 2020","March 8, 2022",current: iOS 26.5,–,6 years,"4 years, 2 months","Discontinued, still supported"
+iPhone 12 / 12 Mini,iOS 14.1,"October 23, 2020(12) November 13, 2020(12 Mini)","September 12, 2023(12) September 7, 2022(12 Mini)",current: iOS 26.5,–,"5 years, 6 months","3 years, 8 months","Discontinued, still supported"
+iPhone 12 Pro / 12 Pro Max,iOS 14.1 (12 Pro) iOS 14.2 (12 Pro Max),"October 23, 2020(12 Pro) November 13, 2020(12 Pro Max)","September 14, 2021",current: iOS 26.5,–,"5 years, 6 months (12 Pro) 5 years, 6 months (12 Pro Max)","4 years, 8 months","Discontinued, still supported"
+iPhone 13 / 13 Mini,iOS 15.0,"September 24, 2021","September 9, 2024(13) September 12, 2023(13 Mini)",current: iOS 26.5,–,"4 years, 7 months","2 years, 8 months","Discontinued, still supported"
+iPhone 13 Pro / 13 Pro Max,iOS 15.0,"September 24, 2021","September 7, 2022",current: iOS 26.5,–,"4 years, 7 months","3 years, 8 months","Discontinued, still supported"
+iPhone SE (3rd),iOS 15.4,"March 18, 2022","February 19, 2025",current: iOS 26.5,–,"4 years, 1 month","1 year, 2 months","Discontinued, still supported"
+iPhone 14 / 14 Plus,iOS 16.0,"September 16, 2022(14) October 7, 2022(14 Plus)","February 19, 2025",current: iOS 26.5,–,"3 years, 7 months","1 year, 2 months","Discontinued, still supported"
+iPhone 14 Pro / 14 Pro Max,iOS 16.0,"September 16, 2022","September 12, 2023",current: iOS 26.5,–,"3 years, 7 months","2 years, 8 months","Discontinued, still supported"
+iPhone 15 / 15 Plus,iOS 17.0,"September 22, 2023","September 9, 2025",current: iOS 26.5,–,"2 years, 7 months",8 months,"Discontinued, still supported"
+iPhone 15 Pro / 15 Pro Max,iOS 17.0,"September 22, 2023","September 9, 2024",current: iOS 26.5,–,"2 years, 7 months","1 year, 8 months","Discontinued, still supported"
+iPhone 16 / 16 Plus,iOS 18.0,"September 20, 2024",,current: iOS 26.5,–,"1 year, 7 months",,Current or still sold
+iPhone 16 Pro / 16 Pro Max,iOS 18.0,"September 20, 2024","September 9, 2025",current: iOS 26.5,–,"1 year, 7 months",8 months,"Discontinued, still supported"
+iPhone 16e,iOS 18.3,"February 28, 2025","March 2, 2026",current: iOS 26.5,–,"1 year, 2 months",2 months,"Discontinued, still supported"
+iPhone 17,iOS 26.0,"September 19, 2025",,current: iOS 26.5,–,7 months,,Current or still sold
+iPhone Air,iOS 26.0,"September 19, 2025",,current: iOS 26.5,–,7 months,,Current or still sold
+iPhone 17 Pro / 17 Pro Max,iOS 26.0,"September 19, 2025",,current: iOS 26.5,–,7 months,,Current or still sold
+iPhone 17e,iOS 26.3,"March 11, 2026",,current: iOS 26.5,–,2 months,,Current or still sold
