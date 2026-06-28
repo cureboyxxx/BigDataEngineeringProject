@@ -20,10 +20,8 @@
 # ## Import Libraries
 
 # %%
-import glob
 import os
 import re
-import shutil
 import sys
 import time
 
@@ -329,66 +327,11 @@ data.show(5, truncate=False)
 print((data.count(), len(data.columns)))
 
 # %% [markdown]
-# ## Save Cleaned Data as Parquet and CSV
-# Spark normally writes Parquet and CSV datasets as folders. This cell writes one part for each format and moves each part to a single output file.
+# ## Validate Cleaned DataFrame
+# Verify the schema, null counts, and basic business rules without writing intermediate files.
 
 # %%
-parquet_output_file = "cleaned-amazon-electronics-sales-2023.parquet"
-csv_output_file = "cleaned-amazon-electronics-sales-2023.csv"
-parquet_temporary_output_dir = f"{parquet_output_file}.tmp"
-csv_temporary_output_dir = f"{csv_output_file}.tmp"
-
-for path in [
-    parquet_output_file,
-    csv_output_file,
-    parquet_temporary_output_dir,
-    csv_temporary_output_dir,
-]:
-    if os.path.isdir(path):
-        shutil.rmtree(path)
-    elif os.path.exists(path):
-        os.remove(path)
-
-(
-    data
-    .coalesce(1)
-    .write
-    .mode("overwrite")
-    .parquet(parquet_temporary_output_dir)
-)
-
-parquet_part_files = glob.glob(os.path.join(parquet_temporary_output_dir, "part-*.parquet"))
-if not parquet_part_files:
-    raise FileNotFoundError("Spark did not create a Parquet part file.")
-
-shutil.move(parquet_part_files[0], parquet_output_file)
-shutil.rmtree(parquet_temporary_output_dir)
-
-(
-    data
-    .coalesce(1)
-    .write
-    .mode("overwrite")
-    .option("header", "true")
-    .csv(csv_temporary_output_dir)
-)
-
-csv_part_files = glob.glob(os.path.join(csv_temporary_output_dir, "part-*.csv"))
-if not csv_part_files:
-    raise FileNotFoundError("Spark did not create a CSV part file.")
-
-shutil.move(csv_part_files[0], csv_output_file)
-shutil.rmtree(csv_temporary_output_dir)
-
-print(f"Cleaned data saved to {parquet_output_file}")
-print(f"Cleaned data saved to {csv_output_file}")
-
-# %% [markdown]
-# ## Validate Saved Parquet Output
-# Read the saved file back and verify the schema, null counts, and basic business rules.
-
-# %%
-saved_data = spark.read.parquet(parquet_output_file)
+saved_data = data.cache()
 
 saved_data.printSchema()
 print((saved_data.count(), len(saved_data.columns)))
@@ -409,7 +352,7 @@ invalid_row_count = saved_data.filter(
     F.col("actual_price").isNull()
 ).count()
 
-print(f"Invalid rows in saved Parquet file: {invalid_row_count}")
+print(f"Invalid rows in cleaned DataFrame: {invalid_row_count}")
 price_range = saved_data.select(
     F.min("discount_price").alias("min_discount_price_eur"),
     F.max("discount_price").alias("max_discount_price_eur"),
@@ -417,28 +360,8 @@ price_range = saved_data.select(
     F.max("actual_price").alias("max_actual_price_eur"),
 )
 
-print("Saved EUR price range:")
+print("Cleaned EUR price range:")
 price_range.show(truncate=False)
-
-
-# %% [markdown]
-# ## Validate Saved CSV Output
-# Read the saved CSV file back and verify the row and column counts.
-
-# %%
-saved_csv_data = (
-    spark.read
-    .option("header", "true")
-    .option("inferSchema", "true")
-    .csv(csv_output_file)
-)
-
-saved_csv_data.printSchema()
-print((saved_csv_data.count(), len(saved_csv_data.columns)))
-saved_csv_data.show(5, truncate=False)
-
-print(f"Saved CSV row count matches Parquet: {saved_csv_data.count() == saved_data.count()}")
-print(f"Saved CSV columns match Parquet: {saved_csv_data.columns == saved_data.columns}")
 
 
 # %% [markdown]
@@ -465,7 +388,7 @@ print(f"Saved CSV columns match Parquet: {saved_csv_data.columns == saved_data.c
 # %% [markdown]
 # ## Project Setup: Analysis DataFrame
 #
-# The analysis starts from the validated parquet-backed Spark DataFrame created above. This avoids brittle CSV parsing and keeps the rest of the project in Spark.
+# The analysis starts from the validated Spark DataFrame created above. This avoids brittle CSV parsing and keeps the rest of the project in Spark.
 
 # %%
 products_df = saved_data.select(
@@ -569,7 +492,6 @@ for _, row in iphone_models_pd.iterrows():
 iphone_models_pd = pd.DataFrame(expanded_iphone_model_rows)
 iphone_models_pd = iphone_models_pd.drop_duplicates(subset=["model_name", "release_year"])
 
-iphone_models_pd.to_csv("wikipedia_iphone_models.csv", index=False)
 print(f"iPhone generations scraped: {len(iphone_models_pd)}")
 display(iphone_models_pd.head(10))
 
@@ -747,7 +669,7 @@ model_coverage_df.show(100, truncate=False)
 #
 # GDELT is used as a media-attention dataset. For every iPhone model that appears in the Amazon analysis, the notebook queries the GDELT DOC API and counts 2023 news mentions for the model name. The query uses `timelinevolraw`, then sums the raw timeline values across the year.
 #
-# The results are cached in `gdelt-iphone-news-mentions-2023.csv` so rerunning the notebook does not repeatedly query the public API.
+# Existing cached results are reused when present, but this notebook does not write a cache file.
 
 # %%
 gdelt_output_file = "gdelt-iphone-news-mentions-2023.csv"
@@ -867,8 +789,6 @@ gdelt_mentions_pd = (
     .drop_duplicates(subset=["model_name"], keep="last")
 )
 gdelt_mentions_pd = gdelt_mentions_pd[gdelt_mentions_pd["model_name"].isin(model_names_for_gdelt)]
-gdelt_mentions_pd.to_csv(gdelt_output_file, index=False)
-print(f"Saved GDELT mentions to {gdelt_output_file}")
 
 gdelt_mentions_pd["gdelt_mentions_2023"] = pd.to_numeric(
     gdelt_mentions_pd["gdelt_mentions_2023"],
@@ -1053,36 +973,19 @@ else:
 print(conclusion)
 
 # %% [markdown]
-# ## Save Project Outputs
+# ## Review Project Outputs
 #
-# The final project outputs are saved so the analysis can be reused without rerunning the full notebook.
+# The final project outputs are kept in memory and displayed in the notebook.
 
 # %%
-project_output_dirs = [
-    "actual-iphone-listings",
-    "iphone-se-mentions",
-    "gdelt-iphone-news-mentions-2023",
-    "iphone-news-attention-value-summary",
-    "iphone-value-model-summary",
-    "iphone-handset-storage-summary",
-    "iphone-value-age-group-summary",
-    "iphone-value-top-listings",
-]
-
-for output_dir in project_output_dirs:
-    if os.path.isdir(output_dir):
-        shutil.rmtree(output_dir)
-
-actual_iphones_df.coalesce(1).write.mode("overwrite").option("header", "true").csv(project_output_dirs[0])
-iphone_se_mentions_df.coalesce(1).write.mode("overwrite").option("header", "true").csv(project_output_dirs[1])
-gdelt_mentions_df.coalesce(1).write.mode("overwrite").option("header", "true").csv(project_output_dirs[2])
-hype_value_df.coalesce(1).write.mode("overwrite").option("header", "true").csv(project_output_dirs[3])
-model_coverage_df.coalesce(1).write.mode("overwrite").option("header", "true").csv(project_output_dirs[4])
-handset_storage_summary_df.coalesce(1).write.mode("overwrite").option("header", "true").csv(project_output_dirs[5])
-age_group_summary_df.coalesce(1).write.mode("overwrite").option("header", "true").csv(project_output_dirs[6])
-top_value_iphone_products_df.coalesce(1).write.mode("overwrite").option("header", "true").csv(project_output_dirs[7])
-
-print("Saved iPhone value analysis outputs.")
+print(f"Actual iPhone listings: {actual_iphones_df.count()}")
+print(f"iPhone SE mention rows: {iphone_se_mentions_df.count()}")
+print(f"GDELT mention rows: {gdelt_mentions_df.count()}")
+print(f"News attention value rows: {hype_value_df.count()}")
+print(f"Model coverage rows: {model_coverage_df.count()}")
+print(f"Handset storage summary rows: {handset_storage_summary_df.count()}")
+print(f"Age group summary rows: {age_group_summary_df.count()}")
+print(f"Top value listing rows: {top_value_iphone_products_df.count()}")
 
 # %%
 spark.stop()
