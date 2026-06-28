@@ -21,7 +21,6 @@
 
 # %%
 import os
-import re
 import sys
 import time
 
@@ -35,7 +34,6 @@ for path in [spark_python_path, py4j_zip_path]:
 
 import pandas as pd
 import requests
-from bs4 import BeautifulSoup
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 from pyspark.sql.window import Window
@@ -409,96 +407,47 @@ products_df.printSchema()
 print(f"Cleaned Amazon products available for analysis: {products_df.count()}")
 
 # %% [markdown]
-# ## Scrape iPhone Generations
+# ## Load iPhone Generations
 #
-# The product titles in the Amazon data mention model names, but not release years. To add that context, the notebook scrapes the iPhone model table from Wikipedia and normalizes it into one row per generation.
+# The product titles in the Amazon data mention model names, but not release years. To add that context, this notebook loads the iPhone model table created by `03-iphone-models-webscraping.ipynb`.
 
 # %%
-url = "https://en.wikipedia.org/wiki/IPhone"
-headers = {
-    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) TechShop_UniProject_Scraper/1.0"
-}
+iphone_models_file = "wikipedia-iphone-models.csv"
 
-response = requests.get(url, headers=headers, timeout=30)
-response.raise_for_status()
-print(f"Downloaded iPhone reference page: HTTP {response.status_code}")
+if not os.path.exists(iphone_models_file):
+    raise FileNotFoundError(
+        f"{iphone_models_file} was not found. Run "
+        "03-iphone-models-webscraping.ipynb before this analysis notebook."
+    )
 
-soup = BeautifulSoup(response.text, "html.parser")
-tables = soup.find_all("table", class_="wikitable")
-target_table = tables[1]
-
-iphone_model_rows = []
-for table_row in target_table.find_all("tr")[3:]:
-    row_values = [
-        cell.get_text(" ", strip=True)
-        for cell in table_row.find_all(["th", "td"])
-    ]
-    if len(row_values) >= 4 and row_values[0].lower().startswith("iphone"):
-        iphone_model_rows.append(row_values[:9])
-
-iphone_model_columns = [
+iphone_models_pd = pd.read_csv(iphone_models_file)
+required_iphone_model_columns = [
     "model_name",
-    "initial_os",
-    "release_date",
-    "discontinued_date",
-    "support_ended",
-    "final_os",
-    "support_lifespan_max",
-    "support_lifespan_min",
-    "support_status",
+    "release_year",
+    "release_date_iso",
+]
+missing_iphone_model_columns = [
+    column
+    for column in required_iphone_model_columns
+    if column not in iphone_models_pd.columns
 ]
 
-normalized_iphone_model_rows = [
-    row + [None] * (len(iphone_model_columns) - len(row))
-    for row in iphone_model_rows
-]
+if missing_iphone_model_columns:
+    raise ValueError(
+        f"{iphone_models_file} is missing required columns: {missing_iphone_model_columns}"
+    )
 
-iphone_models_pd = pd.DataFrame(normalized_iphone_model_rows, columns=iphone_model_columns)
-iphone_models_pd["release_year"] = (
-    iphone_models_pd["release_date"]
-    .str.extract(r"(\d{4})-\d{2}-\d{2}", expand=False)
-    .astype("Int64")
-)
-iphone_models_pd["release_date_iso"] = (
-    iphone_models_pd["release_date"]
-    .str.extract(r"(\d{4}-\d{2}-\d{2})", expand=False)
-)
-iphone_models_pd = iphone_models_pd.dropna(subset=["release_year"])
+iphone_models_pd = iphone_models_pd.dropna(subset=["model_name", "release_year", "release_date_iso"])
 iphone_models_pd["release_year"] = iphone_models_pd["release_year"].astype(int)
-iphone_models_pd["model_name"] = iphone_models_pd["model_name"].str.replace(r"\s+", " ", regex=True).str.strip()
+iphone_models_pd["model_name"] = iphone_models_pd["model_name"].astype(str).str.strip()
 
-
-def expand_iphone_model_name(model_name):
-    parts = [part.strip() for part in re.split(r"\s*/\s*", model_name)]
-    if len(parts) == 1:
-        return parts
-
-    expanded_names = []
-    for part in parts:
-        if part.lower().startswith("iphone"):
-            expanded_names.append(part)
-        else:
-            expanded_names.append(f"iPhone {part}")
-    return expanded_names
-
-
-expanded_iphone_model_rows = []
-for _, row in iphone_models_pd.iterrows():
-    for expanded_model_name in expand_iphone_model_name(row["model_name"]):
-        expanded_row = row.copy()
-        expanded_row["model_name"] = expanded_model_name
-        expanded_iphone_model_rows.append(expanded_row)
-
-iphone_models_pd = pd.DataFrame(expanded_iphone_model_rows)
-iphone_models_pd = iphone_models_pd.drop_duplicates(subset=["model_name", "release_year"])
-
-print(f"iPhone generations scraped: {len(iphone_models_pd)}")
+print(f"iPhone generations loaded: {len(iphone_models_pd)}")
 display(iphone_models_pd.head(10))
 
 # %% [markdown]
 # ## Move the iPhone Reference Data Into Spark
 #
-# Spark is used for the matching, scoring, aggregation, and output. The scraped table is small, so it is safe to broadcast during the join.
+# Spark is used for the matching, scoring, aggregation, and output. The iPhone reference table is small, so it is safe to broadcast during the join.
 
 # %%
 iphone_models_spark = spark.createDataFrame(iphone_models_pd)
