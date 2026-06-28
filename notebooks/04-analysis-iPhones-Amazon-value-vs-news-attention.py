@@ -22,7 +22,6 @@
 # %%
 import os
 import sys
-import time
 
 spark_home = os.environ.get("SPARK_HOME", "/usr/local/spark")
 spark_python_path = os.path.join(spark_home, "python")
@@ -33,7 +32,6 @@ for path in [spark_python_path, py4j_zip_path]:
         sys.path.insert(0, path)
 
 import pandas as pd
-import requests
 from pyspark.sql import SparkSession
 from pyspark.sql import functions as F
 from pyspark.sql.window import Window
@@ -616,128 +614,34 @@ model_coverage_df.show(100, truncate=False)
 # %% [markdown]
 # ## GDELT News Attention in 2023
 #
-# GDELT is used as a media-attention dataset. For every iPhone model that appears in the Amazon analysis, the notebook queries the GDELT DOC API and counts 2023 news mentions for the model name. The query uses `timelinevolraw`, then sums the raw timeline values across the year.
-#
-# Existing cached results are reused when present, but this notebook does not write a cache file.
+# GDELT is used as a media-attention dataset. This notebook loads the 2023 news mention counts created by `02-gdelt-iphone-news-mentions-API-request.ipynb`.
 
 # %%
 gdelt_output_file = "gdelt-iphone-news-mentions-2023.csv"
-gdelt_start_datetime = "20230101000000"
-gdelt_end_datetime = "20231231235959"
-
-
-def extract_gdelt_timeline_total(payload):
-    total_mentions = 0.0
-    for timeline in payload.get("timeline", []):
-        for point in timeline.get("data", []):
-            value = point.get("value")
-            if value is not None:
-                total_mentions += float(value)
-    return int(round(total_mentions))
-
-
-def fetch_gdelt_mentions_2023(model_name, sleep_seconds=6):
-    time.sleep(sleep_seconds)
-    gdelt_url = "https://api.gdeltproject.org/api/v2/doc/doc"
-    params = {
-        "query": f'"{model_name}"',
-        "mode": "timelinevolraw",
-        "format": "json",
-        "startdatetime": gdelt_start_datetime,
-        "enddatetime": gdelt_end_datetime,
-        "timelinesmooth": "0",
-    }
-
-    try:
-        response = requests.get(gdelt_url, params=params, timeout=20)
-    except requests.RequestException as error:
-        return {
-            "model_name": model_name,
-            "gdelt_mentions_2023": None,
-            "gdelt_query_url": gdelt_url,
-            "gdelt_fetch_status": f"request_error_{type(error).__name__}",
-        }
-
-    if response.status_code != 200:
-        return {
-            "model_name": model_name,
-            "gdelt_mentions_2023": None,
-            "gdelt_query_url": response.url,
-            "gdelt_fetch_status": f"http_{response.status_code}",
-        }
-
-    try:
-        payload = response.json()
-    except ValueError:
-        return {
-            "model_name": model_name,
-            "gdelt_mentions_2023": None,
-            "gdelt_query_url": response.url,
-            "gdelt_fetch_status": "invalid_json",
-        }
-
-    return {
-        "model_name": model_name,
-        "gdelt_mentions_2023": extract_gdelt_timeline_total(payload),
-        "gdelt_query_url": response.url,
-        "gdelt_fetch_status": "ok",
-    }
-
-
-model_names_for_gdelt = [
-    row["model_name"]
-    for row in model_coverage_df.select("model_name").distinct().orderBy("model_name").collect()
-]
 
 if os.path.exists(gdelt_output_file):
-    cached_gdelt_mentions_pd = pd.read_csv(gdelt_output_file)
-    print(f"Loaded cached GDELT mentions from {gdelt_output_file}")
+    gdelt_mentions_pd = pd.read_csv(gdelt_output_file)
+    print(f"Loaded GDELT mentions from {gdelt_output_file}")
 else:
-    cached_gdelt_mentions_pd = pd.DataFrame(
-        columns=["model_name", "gdelt_mentions_2023", "gdelt_query_url", "gdelt_fetch_status"]
+    raise FileNotFoundError(
+        f"{gdelt_output_file} was not found. Run "
+        "02-gdelt-iphone-news-mentions-API-request.ipynb before this analysis notebook."
     )
 
-cached_gdelt_mentions_pd["gdelt_mentions_2023"] = pd.to_numeric(
-    cached_gdelt_mentions_pd["gdelt_mentions_2023"],
-    errors="coerce",
-)
-
-usable_cached_models = set(
-    cached_gdelt_mentions_pd[
-        (cached_gdelt_mentions_pd["gdelt_fetch_status"] == "ok") &
-        (cached_gdelt_mentions_pd["gdelt_mentions_2023"].notna())
-    ]["model_name"]
-)
-models_to_fetch_from_gdelt = [
-    model_name
-    for model_name in model_names_for_gdelt
-    if model_name not in usable_cached_models
+required_gdelt_columns = [
+    "model_name",
+    "gdelt_mentions_2023",
+    "gdelt_query_url",
+    "gdelt_fetch_status",
 ]
-max_live_gdelt_fetches_per_run = 12
-models_to_fetch_now = models_to_fetch_from_gdelt[:max_live_gdelt_fetches_per_run]
-models_deferred = models_to_fetch_from_gdelt[max_live_gdelt_fetches_per_run:]
+missing_gdelt_columns = [
+    column
+    for column in required_gdelt_columns
+    if column not in gdelt_mentions_pd.columns
+]
 
-fresh_gdelt_mentions_pd = pd.DataFrame([
-    fetch_gdelt_mentions_2023(model_name)
-    for model_name in models_to_fetch_now
-])
-
-deferred_gdelt_mentions_pd = pd.DataFrame([
-    {
-        "model_name": model_name,
-        "gdelt_mentions_2023": None,
-        "gdelt_query_url": None,
-        "gdelt_fetch_status": "deferred_fetch_limit",
-    }
-    for model_name in models_deferred
-])
-
-gdelt_mentions_pd = (
-    pd.concat([cached_gdelt_mentions_pd, fresh_gdelt_mentions_pd, deferred_gdelt_mentions_pd], ignore_index=True)
-    .sort_values(["model_name", "gdelt_fetch_status"])
-    .drop_duplicates(subset=["model_name"], keep="last")
-)
-gdelt_mentions_pd = gdelt_mentions_pd[gdelt_mentions_pd["model_name"].isin(model_names_for_gdelt)]
+if missing_gdelt_columns:
+    raise ValueError(f"{gdelt_output_file} is missing required columns: {missing_gdelt_columns}")
 
 gdelt_mentions_pd["gdelt_mentions_2023"] = pd.to_numeric(
     gdelt_mentions_pd["gdelt_mentions_2023"],
