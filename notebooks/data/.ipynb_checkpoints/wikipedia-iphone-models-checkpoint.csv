@@ -1,0 +1,53 @@
+model_name,initial_os,release_date,discontinued_date,support_ended,final_os,support_lifespan_max,support_lifespan_min,support_status,release_year,release_date_iso
+iPhone,iPhone OS 1 .0,"June 29, 2007 ( 2007-06-29 )","June 9, 2008 ( 2008-06-09 )","June 21, 2010 ( 2010-06-21 )",iPhone OS 3 .1.3,"2 years, 11 months",2 years,Discontinued and unsupported,2007,2007-06-29
+iPhone 3G,iPhone OS 2 .0,"July 11, 2008 ( 2008-07-11 )","August 9, 2010 ( 2010-08-09 )","March 3, 2011 ( 2011-03-03 )",iOS 4 .2.1,"2 years, 7 months",6 months,,2008,2008-07-11
+iPhone 3GS,iPhone OS 3 .0,"June 19, 2009 ( 2009-06-19 )","September 12, 2012 ( 2012-09-12 )","September 18, 2013 ( 2013-09-18 ) (late, single update: February 21, 2014 ( 2014-02-21 ) )",iOS 6 .1.3 (6.1.6),"4 years, 2 months",1 year,,2009,2009-06-19
+iPhone 4,iOS 4 .0,"June 24, 2010 ( 2010-06-24 )","September 10, 2013 ( 2013-09-10 )","September 17, 2014 ( 2014-09-17 )",iOS 7 .1.2,"4 years, 2 months",1 year,,2010,2010-06-24
+iPhone 4s,iOS 5 .0,"October 14, 2011 ( 2011-10-14 )","September 9, 2014 ( 2014-09-09 )","September 13, 2016 ( 2016-09-13 ) (late, single update: July 22, 2019 ( 2019-07-22 ) )",iOS 9 .3.5 (9.3.6),"4 years, 10 months",2 years,,2011,2011-10-14
+iPhone 5,iOS 6 .0,"September 21, 2012 ( 2012-09-21 )","September 10, 2013 ( 2013-09-10 )","September 19, 2017 ( 2017-09-19 ) (late, single update: July 22, 2019 ( 2019-07-22 ) )",iOS 10 .3.3 (10.3.4),"4 years, 11 months",4 years,,2012,2012-09-21
+iPhone 5c,iOS 7 .0,"September 20, 2013 ( 2013-09-20 )","September 9, 2015 ( 2015-09-09 )","September 19, 2017 ( 2017-09-19 )",iOS 10 .3.3,"3 years, 11 months",2 years,,2013,2013-09-20
+iPhone 5s,iOS 7 .0,"September 20, 2013 ( 2013-09-20 )","March 21, 2016 ( 2016-03-21 )","September 18, 2019 ( 2019-09-18 ) (last security update: January 26, 2026 ( 2026-01-26 ) )",iOS 12 .4.1 (12.5.8),"5 years, 11 months","3 years, 5 months",,2013,2013-09-20
+iPhone 6,iOS 8 .0,"September 19, 2014 ( 2014-09-19 )","September 7, 2016 ( 2016-09-07 )","4 years, 11 months",3 years,,,,2014,2014-09-19
+iPhone 6 Plus,iOS 8 .0,"September 19, 2014 ( 2014-09-19 )","September 7, 2016 ( 2016-09-07 )","4 years, 11 months",3 years,,,,2014,2014-09-19
+iPhone 6s,iOS 9 .0,"September 25, 2015 ( 2015-09-25 )","September 12, 2018 ( 2018-09-12 )","September 12, 2022 ( 2022-09-12 ) (last security update: May 11, 2026 ( 2026-05-11 ) )",iOS 15 .6.1 (15.8.7),"6 years, 11 months",4 years,"Discontinued and unsupported, critical security bug fixes only",2015,2015-09-25
+iPhone 6s Plus,iOS 9 .0,"September 25, 2015 ( 2015-09-25 )","September 12, 2018 ( 2018-09-12 )","September 12, 2022 ( 2022-09-12 ) (last security update: May 11, 2026 ( 2026-05-11 ) )",iOS 15 .6.1 (15.8.7),"6 years, 11 months",4 years,"Discontinued and unsupported, critical security bug fixes only",2015,2015-09-25
+iPhone SE (1st),iOS 9 .3,"March 31, 2016 ( 2016-03-31 )","September 12, 2018 ( 2018-09-12 )","6 years, 5 months",4 years,,,,2016,2016-03-31
+iPhone 7,iOS 10 .0,"September 16, 2016 ( 2016-09-16 )","September 10, 2019 ( 2019-09-10 )","5 years, 11 months",3 years,,,,2016,2016-09-16
+iPhone 7 Plus,iOS 10 .0,"September 16, 2016 ( 2016-09-16 )","September 10, 2019 ( 2019-09-10 )","5 years, 11 months",3 years,,,,2016,2016-09-16
+iPhone 8,iOS 11 .0,"September 22, 2017 ( 2017-09-22 )","April 15, 2020 ( 2020-04-15 )","September 18, 2023 ( 2023-09-18 ) (last security update: May 11, 2026 ( 2026-05-11 ) )",iOS 16 .6.1 (16.7.15),"5 years, 11 months","3 years, 1 month",,2017,2017-09-22
+iPhone 8 Plus,iOS 11 .0,"September 22, 2017 ( 2017-09-22 )","April 15, 2020 ( 2020-04-15 )","September 18, 2023 ( 2023-09-18 ) (last security update: May 11, 2026 ( 2026-05-11 ) )",iOS 16 .6.1 (16.7.15),"5 years, 11 months","3 years, 1 month",,2017,2017-09-22
+iPhone X,iOS 11 .0.1,"November 3, 2017 ( 2017-11-03 )","September 12, 2018 ( 2018-09-12 )","5 years, 10 months","5 years, 1 month",,,,2017,2017-11-03
+iPhone XS,iOS 12 .0,"September 21, 2018 ( 2018-09-21 )","September 10, 2019 ( 2019-09-10 )","September 15, 2025 ( 2025-09-15 ) (last security update: May 11, 2026 ( 2026-05-11 ) )",iOS 18 .7 ( iOS 18.7.9 ),7 years,6 years,,2018,2018-09-21
+iPhone XS Max,iOS 12 .0,"September 21, 2018 ( 2018-09-21 )","September 10, 2019 ( 2019-09-10 )","September 15, 2025 ( 2025-09-15 ) (last security update: May 11, 2026 ( 2026-05-11 ) )",iOS 18 .7 ( iOS 18.7.9 ),7 years,6 years,,2018,2018-09-21
+iPhone XR,iOS 12 .0,"October 26, 2018 ( 2018-10-26 )","September 14, 2021 ( 2021-09-14 )","6 years, 10 months",4 years,,,,2018,2018-10-26
+iPhone 11,iOS 13 .0,"September 20, 2019 ( 2019-09-20 )","September 7, 2022 ( 2022-09-07 )",current: iOS 26.5,–,"6 years, 9 months","3 years, 9 months","Discontinued, still supported",2019,2019-09-20
+iPhone 11 Pro,iOS 13 .0,"September 20, 2019 ( 2019-09-20 )","October 13, 2020 ( 2020-10-13 )","6 years, 9 months","5 years, 8 months",,,,2019,2019-09-20
+iPhone 11 Pro Max,iOS 13 .0,"September 20, 2019 ( 2019-09-20 )","October 13, 2020 ( 2020-10-13 )","6 years, 9 months","5 years, 8 months",,,,2019,2019-09-20
+iPhone SE (2nd),iOS 13 .4,"April 24, 2020 ( 2020-04-24 )","March 8, 2022 ( 2022-03-08 )","6 years, 2 months","4 years, 3 months",,,,2020,2020-04-24
+iPhone 12,iOS 14 .1,"October 23, 2020 ( 2020-10-23 ) (12) November 13, 2020 ( 2020-11-13 ) (12 Mini)","September 12, 2023 ( 2023-09-12 ) (12) September 7, 2022 ( 2022-09-07 ) (12 Mini)","5 years, 8 months","3 years, 9 months",,,,2020,2020-10-23
+iPhone 12 Mini,iOS 14 .1,"October 23, 2020 ( 2020-10-23 ) (12) November 13, 2020 ( 2020-11-13 ) (12 Mini)","September 12, 2023 ( 2023-09-12 ) (12) September 7, 2022 ( 2022-09-07 ) (12 Mini)","5 years, 8 months","3 years, 9 months",,,,2020,2020-10-23
+iPhone 12 Pro,iOS 14 .1 (12 Pro) iOS 14 .2 (12 Pro Max),"October 23, 2020 ( 2020-10-23 ) (12 Pro) November 13, 2020 ( 2020-11-13 ) (12 Pro Max)","September 14, 2021 ( 2021-09-14 )","5 years, 8 months (12 Pro) 5 years, 7 months (12 Pro Max)","4 years, 9 months",,,,2020,2020-10-23
+iPhone 12 Pro Max,iOS 14 .1 (12 Pro) iOS 14 .2 (12 Pro Max),"October 23, 2020 ( 2020-10-23 ) (12 Pro) November 13, 2020 ( 2020-11-13 ) (12 Pro Max)","September 14, 2021 ( 2021-09-14 )","5 years, 8 months (12 Pro) 5 years, 7 months (12 Pro Max)","4 years, 9 months",,,,2020,2020-10-23
+iPhone 13,iOS 15 .0,"September 24, 2021 ( 2021-09-24 )","September 9, 2024 ( 2024-09-09 ) (13) September 12, 2023 ( 2023-09-12 ) (13 Mini)","4 years, 9 months","2 years, 9 months",,,,2021,2021-09-24
+iPhone 13 Mini,iOS 15 .0,"September 24, 2021 ( 2021-09-24 )","September 9, 2024 ( 2024-09-09 ) (13) September 12, 2023 ( 2023-09-12 ) (13 Mini)","4 years, 9 months","2 years, 9 months",,,,2021,2021-09-24
+iPhone 13 Pro,iOS 15 .0,"September 24, 2021 ( 2021-09-24 )","September 7, 2022 ( 2022-09-07 )","4 years, 9 months","3 years, 9 months",,,,2021,2021-09-24
+iPhone 13 Pro Max,iOS 15 .0,"September 24, 2021 ( 2021-09-24 )","September 7, 2022 ( 2022-09-07 )","4 years, 9 months","3 years, 9 months",,,,2021,2021-09-24
+iPhone SE (3rd),iOS 15 .4,"March 18, 2022 ( 2022-03-18 )","February 19, 2025 ( 2025-02-19 )","4 years, 3 months","1 year, 4 months",,,,2022,2022-03-18
+iPhone 14,iOS 16 .0,"September 16, 2022 ( 2022-09-16 ) (14) October 7, 2022 ( 2022-10-07 ) (14 Plus)","3 years, 9 months","1 year, 4 months",,,,,2022,2022-09-16
+iPhone 14 Plus,iOS 16 .0,"September 16, 2022 ( 2022-09-16 ) (14) October 7, 2022 ( 2022-10-07 ) (14 Plus)","3 years, 9 months","1 year, 4 months",,,,,2022,2022-09-16
+iPhone 14 Pro,iOS 16 .0,"September 16, 2022 ( 2022-09-16 )","September 12, 2023 ( 2023-09-12 )","3 years, 9 months","2 years, 9 months",,,,2022,2022-09-16
+iPhone 14 Pro Max,iOS 16 .0,"September 16, 2022 ( 2022-09-16 )","September 12, 2023 ( 2023-09-12 )","3 years, 9 months","2 years, 9 months",,,,2022,2022-09-16
+iPhone 15,iOS 17 .0,"September 22, 2023 ( 2023-09-22 )","September 9, 2025 ( 2025-09-09 )","2 years, 9 months",9 months,,,,2023,2023-09-22
+iPhone 15 Plus,iOS 17 .0,"September 22, 2023 ( 2023-09-22 )","September 9, 2025 ( 2025-09-09 )","2 years, 9 months",9 months,,,,2023,2023-09-22
+iPhone 15 Pro,iOS 17 .0,"September 22, 2023 ( 2023-09-22 )","September 9, 2024 ( 2024-09-09 )","2 years, 9 months","1 year, 9 months",,,,2023,2023-09-22
+iPhone 15 Pro Max,iOS 17 .0,"September 22, 2023 ( 2023-09-22 )","September 9, 2024 ( 2024-09-09 )","2 years, 9 months","1 year, 9 months",,,,2023,2023-09-22
+iPhone 16,iOS 18 .0,"September 20, 2024 ( 2024-09-20 )",,"1 year, 9 months",,Current or still sold,,,2024,2024-09-20
+iPhone 16 Plus,iOS 18 .0,"September 20, 2024 ( 2024-09-20 )",,"1 year, 9 months",,Current or still sold,,,2024,2024-09-20
+iPhone 16 Pro,iOS 18 .0,"September 20, 2024 ( 2024-09-20 )","September 9, 2025 ( 2025-09-09 )","1 year, 9 months",9 months,"Discontinued, still supported",,,2024,2024-09-20
+iPhone 16 Pro Max,iOS 18 .0,"September 20, 2024 ( 2024-09-20 )","September 9, 2025 ( 2025-09-09 )","1 year, 9 months",9 months,"Discontinued, still supported",,,2024,2024-09-20
+iPhone 16e,iOS 18 .3,"February 28, 2025 ( 2025-02-28 )","March 2, 2026 ( 2026-03-02 )","1 year, 3 months",3 months,,,,2025,2025-02-28
+iPhone 17,iOS 26 .0,"September 19, 2025 ( 2025-09-19 )",,9 months,,Current or still sold,,,2025,2025-09-19
+iPhone Air,iOS 26 .0,"September 19, 2025 ( 2025-09-19 )",9 months,,,,,,2025,2025-09-19
+iPhone 17 Pro,iOS 26 .0,"September 19, 2025 ( 2025-09-19 )",9 months,,,,,,2025,2025-09-19
+iPhone 17 Pro Max,iOS 26 .0,"September 19, 2025 ( 2025-09-19 )",9 months,,,,,,2025,2025-09-19
+iPhone 17e,iOS 26 .3,"March 11, 2026 ( 2026-03-11 )",3 months,,,,,,2026,2026-03-11
