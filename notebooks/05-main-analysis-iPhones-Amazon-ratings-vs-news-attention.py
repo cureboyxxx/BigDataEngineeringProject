@@ -28,16 +28,9 @@
 #
 # Research question: Do iPhone models with more news attention have worse Amazon rating scores?
 #
-# The purpose of this university informatics project is to show a clear technology pipeline and a presentable story. The score below is intentionally transparent instead of statistically complex.
+# This analysis uses the average Amazon rating directly from the cleaned data. No extra rating score is calculated. Review counts are still shown as context, but they do not change the rating value.
 #
-# `rating_score = weighted_average_rating * review_confidence`
-#
-# where:
-#
-# - `weighted_average_rating` gives more influence to listings with more reviews: `log(1 + no_of_ratings)`.
-# - `review_confidence` penalizes model groups with very little review evidence: `1 - exp(-total_reviews / 500)`.
-#
-# A model can therefore have a high raw rating but a lower rating score if it appears in only a few weakly reviewed listings. GDELT mentions are treated as media attention, not as a direct measure of product quality.
+# GDELT mentions are treated as media attention, not as a direct measure of product quality.
 
 # %% [markdown]
 # ## Import Libraries
@@ -231,7 +224,7 @@ print("Matched handset listings:", len(iphone_listings))
 iphone_listings[["model_name", "ratings", "no_of_ratings", "discount_price", "name"]].head(10)
 
 # %% [markdown]
-# ## Build the Model-Level Rating Score
+# ## Build the Model-Level Average Rating
 
 # %%
 model_summary = (
@@ -244,17 +237,7 @@ model_summary = (
         total_reviews=("no_of_ratings", "sum"),
         median_reviews=("no_of_ratings", "median"),
         median_discount_price=("discount_price", "median"),
-        weighted_rating_sum=("rating_weighted", "sum"),
-        review_weight_sum=("review_weight", "sum"),
     )
-)
-
-model_summary["weighted_average_rating"] = (
-    model_summary["weighted_rating_sum"] / model_summary["review_weight_sum"]
-)
-model_summary["review_confidence"] = 1 - np.exp(-model_summary["total_reviews"] / 500)
-model_summary["rating_score"] = (
-    model_summary["weighted_average_rating"] * model_summary["review_confidence"]
 )
 
 analysis_df = (
@@ -266,7 +249,7 @@ analysis_df = (
 analysis_df["gdelt_mentions_2023"] = analysis_df["gdelt_mentions_2023"].fillna(0)
 analysis_df["log_news_attention"] = np.log1p(analysis_df["gdelt_mentions_2023"])
 analysis_df["news_rank"] = analysis_df["gdelt_mentions_2023"].rank(ascending=False, method="dense")
-analysis_df["rating_score_rank"] = analysis_df["rating_score"].rank(ascending=False, method="dense")
+analysis_df["average_rating_rank"] = analysis_df["average_rating"].rank(ascending=False, method="dense")
 analysis_df["attention_group"] = pd.qcut(
     analysis_df["gdelt_mentions_2023"].rank(method="first"),
     q=min(3, len(analysis_df)),
@@ -302,11 +285,10 @@ story_table = analysis_df[[
     "gdelt_mentions_2023",
     "listing_count",
     "total_reviews",
-    "weighted_average_rating",
-    "review_confidence",
-    "rating_score",
+    "average_rating",
+    "median_rating",
     "news_rank",
-    "rating_score_rank",
+    "average_rating_rank",
 ]].copy()
 
 story_table["gdelt_mentions_2023"] = story_table["gdelt_mentions_2023"].astype(int)
@@ -316,47 +298,52 @@ story_table.round(3)
 # ## Correlation Snapshot
 
 # %%
-pearson_corr = analysis_df[["gdelt_mentions_2023", "log_news_attention", "rating_score", "weighted_average_rating"]].corr()
+pearson_corr = analysis_df[["gdelt_mentions_2023", "log_news_attention", "average_rating", "total_reviews"]].corr()
 pearson_corr.round(3)
 
 # %% [markdown]
-# The story is easier to present as an attention-versus-rating contrast than as a formal hypothesis test. Do the models that dominate 2023 news attention land lower on the Amazon rating score axis?
+# The story is easier to present as an attention-versus-rating contrast than as a formal hypothesis test. Do the models that dominate 2023 news attention land lower on the Amazon average-rating axis?
 
 # %% [markdown]
-# ## Chart 1: What builds the rating score?
+# ## Chart 1: Average Rating and Review Evidence
 
 # %% [markdown]
-# This chart breaks the rating score into its main parts. It makes clear that the final score depends on both rating quality and review confidence.
+# This chart shows the direct average Amazon rating for each iPhone model. The line adds review volume as context, but it does not change the rating value.
 
 # %%
-component_df = analysis_df.sort_values("rating_score", ascending=False).melt(
-    id_vars=["model_name"],
-    value_vars=["weighted_average_rating", "review_confidence", "rating_score"],
-    var_name="metric",
-    value_name="value",
-)
+rating_review_order = analysis_df.sort_values("average_rating", ascending=False)
 
-plt.figure(figsize=(12, 7))
-ax = sns.barplot(
-    data=component_df,
+fig, ax1 = plt.subplots(figsize=(12, 7))
+sns.barplot(
+    data=rating_review_order,
     x="model_name",
-    y="value",
-    hue="metric",
-    palette=["#4C78A8", "#F2C14E", "#E4572E"],
+    y="average_rating",
+    color="#4C78A8",
+    ax=ax1,
 )
-ax.set_title("What Builds the Rating Score?")
-ax.set_xlabel("")
-ax.set_ylabel("Metric value")
-ax.tick_params(axis="x", rotation=45)
-ax.legend(title="")
+ax1.set_title("Average Amazon Rating with Review Volume Context")
+ax1.set_xlabel("")
+ax1.set_ylabel("Average Amazon rating")
+ax1.set_ylim(0, 5)
+ax1.tick_params(axis="x", rotation=45)
+
+ax2 = ax1.twinx()
+ax2.plot(
+    rating_review_order["model_name"],
+    rating_review_order["total_reviews"],
+    color="#E4572E",
+    marker="o",
+    linewidth=2,
+)
+ax2.set_ylabel("Total reviews")
 plt.tight_layout()
 plt.show()
 
 # %% [markdown]
-# ## Chart 2: Rating Score vs Price
+# ## Chart 2: Average Rating vs Price
 
 # %% [markdown]
-# This chart adds price context to the story. It helps check whether the rating-score pattern is mainly about expensive or cheaper listings.
+# This chart adds price context to the story. It helps check whether the average-rating pattern is mainly about expensive or cheaper listings.
 
 # %%
 price_df = analysis_df.dropna(subset=["median_discount_price"]).copy()
@@ -365,7 +352,7 @@ plt.figure(figsize=(11, 7))
 ax = sns.scatterplot(
     data=price_df,
     x="median_discount_price",
-    y="rating_score",
+    y="average_rating",
     size="gdelt_mentions_2023",
     hue="attention_group",
     palette=["#5B8E7D", "#F2C14E", "#E4572E"],
@@ -374,10 +361,11 @@ ax = sns.scatterplot(
     linewidth=0.8,
 )
 for _, row in price_df.iterrows():
-    ax.text(row["median_discount_price"] + 2, row["rating_score"] + 0.02, row["model_name"], fontsize=8)
-ax.set_title("Price Context: Rating Score Is Not Just a Cheap-Phone Story")
+    ax.text(row["median_discount_price"] + 2, row["average_rating"] + 0.02, row["model_name"], fontsize=8)
+ax.set_title("Price Context: Average Rating Is Not Just a Cheap-Phone Story")
 ax.set_xlabel("Median discount price in the Amazon data")
-ax.set_ylabel("Amazon rating score")
+ax.set_ylabel("Average Amazon rating")
+ax.set_ylim(3, 5)
 plt.tight_layout()
 plt.show()
 
@@ -408,28 +396,28 @@ plt.tight_layout()
 plt.show()
 
 # %% [markdown]
-# ## Chart 4: Rating Score and News Attention by iPhone Model
+# ## Chart 4: Average Rating and News Attention by iPhone Model
 #
 
 # %% [markdown]
-# This chart compares the calculated Amazon rating score for each model. It shows which models look strongest or weakest after review evidence is included.
+# This chart compares the direct average Amazon rating for each model. It shows which models look strongest or weakest without applying an extra score calculation.
 
 # %%
-rating_order = analysis_df.sort_values("rating_score", ascending=True)
+rating_order = analysis_df.sort_values("average_rating", ascending=True)
 
 plt.figure(figsize=(11, 7))
 ax = sns.barplot(
     data=rating_order,
-    x="rating_score",
+    x="average_rating",
     y="model_name",
     hue="attention_group",
     dodge=False,
     palette=["#5B8E7D", "#F2C14E", "#E4572E"],
 )
-ax.set_title("Amazon Rating Score by iPhone Model")
-ax.set_xlabel("Rating score, 0 to 5")
+ax.set_title("Average Amazon Rating by iPhone Model")
+ax.set_xlabel("Average rating, 3 to 5")
 ax.set_ylabel("")
-ax.set_xlim(0, 5)
+ax.set_xlim(3, 5)
 ax.legend(title="")
 plt.tight_layout()
 plt.show()
@@ -438,13 +426,13 @@ plt.show()
 # ## Results
 
 # %% [markdown]
-# The analysis shows that news attention and Amazon rating scores do not move together in a simple way. The most mentioned iPhone models are not automatically the models with the best Amazon rating scores.
+# The analysis shows that news attention and Amazon average ratings do not move together in a simple way. The most mentioned iPhone models are not automatically the models with the best Amazon ratings.
 #
-# The main pattern is that newer and highly discussed models receive more news attention, but their Amazon rating score can still be weaker when the review evidence is less strong. Older or less discussed models can look better because they have more stable review histories and more accumulated customer feedback.
+# The main pattern is that newer and highly discussed models receive more news attention, but their average Amazon rating can still be weaker or more mixed. Older or less discussed models can look better because their customer ratings are more stable in the available listings.
 #
 # For the research question, the simple answer is: more news attention does not mean better Amazon ratings. In this dataset, the story points slightly in the opposite direction: very visible iPhone models can have more mixed Amazon rating results.
 #
-# This does not prove that news attention causes worse ratings. It only shows that attention and customer satisfaction are different signals. News attention mostly reflects public discussion, launches, and media interest, while the Amazon rating score reflects customer reviews in the available product listings.
+# This does not prove that news attention causes worse ratings. It only shows that attention and customer satisfaction are different signals. News attention mostly reflects public discussion, launches, and media interest, while the average Amazon rating reflects customer reviews in the available product listings.
 
 # %%
 spark.stop()
