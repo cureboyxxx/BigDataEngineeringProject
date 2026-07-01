@@ -1,7 +1,0 @@
-model_name,gdelt_mentions_2023,gdelt_query_url,gdelt_fetch_status
-iPhone 12,3622.0,https://api.gdeltproject.org/api/v2/doc/doc?query=%22iPhone+12%22&mode=timelinevolraw&format=json&startdatetime=20230101000000&enddatetime=20231231235959&timelinesmooth=0,ok
-iPhone 13,4294.0,https://api.gdeltproject.org/api/v2/doc/doc?query=%22iPhone+13%22&mode=timelinevolraw&format=json&startdatetime=20230101000000&enddatetime=20231231235959&timelinesmooth=0,ok
-iPhone 14,14533.0,https://api.gdeltproject.org/api/v2/doc/doc?query=%22iPhone+14%22&mode=timelinevolraw&format=json&startdatetime=20230101000000&enddatetime=20231231235959&timelinesmooth=0,ok
-iPhone 14 Plus,1552.0,https://api.gdeltproject.org/api/v2/doc/doc?query=%22iPhone+14+Plus%22&mode=timelinevolraw&format=json&startdatetime=20230101000000&enddatetime=20231231235959&timelinesmooth=0,ok
-iPhone 14 Pro,7535.0,https://api.gdeltproject.org/api/v2/doc/doc?query=%22iPhone+14+Pro%22&mode=timelinevolraw&format=json&startdatetime=20230101000000&enddatetime=20231231235959&timelinesmooth=0,ok
-iPhone 14 Pro Max,3651.0,https://api.gdeltproject.org/api/v2/doc/doc?query=%22iPhone+14+Pro+Max%22&mode=timelinevolraw&format=json&startdatetime=20230101000000&enddatetime=20231231235959&timelinesmooth=0,ok
