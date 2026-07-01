@@ -306,6 +306,9 @@ pearson_corr.round(3)
 # %% [markdown]
 # ## Chart 1: Which iPhone Models Got the Most News Attention?
 
+# %% [markdown]
+# This chart shows which iPhone models were mentioned most often in 2023 news data. It sets up the "attention" side of the research question.
+
 # %%
 attention_order = analysis_df.sort_values("gdelt_mentions_2023", ascending=True)
 
@@ -327,6 +330,9 @@ plt.show()
 
 # %% [markdown]
 # ## Chart 2: Amazon Rating Score by Model
+
+# %% [markdown]
+# This chart compares the calculated Amazon rating score for each model. It shows which models look strongest or weakest after review evidence is included.
 
 # %%
 rating_order = analysis_df.sort_values("rating_score", ascending=True)
@@ -350,6 +356,9 @@ plt.show()
 
 # %% [markdown]
 # ## Chart 6: Rating Score Components
+
+# %% [markdown]
+# This chart breaks the rating score into its main parts. It makes clear that the final score depends on both rating quality and review confidence.
 
 # %%
 component_df = analysis_df.sort_values("rating_score", ascending=False).melt(
@@ -377,6 +386,9 @@ plt.show()
 
 # %% [markdown]
 # ## Chart 10: Price Context for the Rating Story
+
+# %% [markdown]
+# This chart adds price context to the story. It helps check whether the rating-score pattern is mainly about expensive or cheaper listings.
 
 # %%
 price_df = analysis_df.dropna(subset=["median_discount_price"]).copy()
