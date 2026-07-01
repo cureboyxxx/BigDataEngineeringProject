@@ -162,6 +162,7 @@ wiki_models = (
     wiki_df
     .select("model_name", "release_year", "release_date", "support_status")
     .where(F.col("model_name").rlike("^iPhone"))
+    .where(F.col("model_name") != "iPhone")
     .toPandas()
     .sort_values(["release_year", "model_name"], ascending=[False, False])
 )
@@ -364,8 +365,8 @@ for _, row in price_df.iterrows():
     ax.text(row["median_discount_price"] + 2, row["average_rating"] + 0.02, row["model_name"], fontsize=8)
 ax.set_title("Price Context: Average Rating Is Not Just a Cheap-Phone Story")
 ax.set_xlabel("Median discount price in the Amazon data")
-ax.set_ylabel("Average Amazon rating")
-ax.set_ylim(3, 5)
+ax.set_ylabel("Average Amazon rating (4 to 5 stars)")
+ax.set_ylim(4, 5)
 plt.tight_layout()
 plt.show()
 
@@ -415,9 +416,9 @@ ax = sns.barplot(
     palette=["#5B8E7D", "#F2C14E", "#E4572E"],
 )
 ax.set_title("Average Amazon Rating by iPhone Model")
-ax.set_xlabel("Average rating, 3 to 5")
+ax.set_xlabel("Average rating (4 to 5 stars)")
 ax.set_ylabel("")
-ax.set_xlim(3, 5)
+ax.set_xlim(4, 5)
 ax.legend(title="")
 plt.tight_layout()
 plt.show()
