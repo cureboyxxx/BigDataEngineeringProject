@@ -274,12 +274,6 @@ analysis_df = analysis_df.sort_values("gdelt_mentions_2023", ascending=False).re
 analysis_df.round(3)
 
 # %% [markdown]
-# ## How the Attention Groups Are Defined
-
-# %% [markdown]
-# The attention groups are based on the 2023 GDELT mention count. The models are ranked from lowest to highest news attention and then split into three similarly sized groups with `pd.qcut`: **Low attention**, **Medium attention**, and **High attention**. These groups are only a simple storytelling aid for the charts, not fixed industry categories.
-
-# %% [markdown]
 # ## Story Result in One Table
 
 # %%
